@@ -69,6 +69,9 @@ pip install --force-reinstall torch==2.3.1 torchvision==0.18.1 --index-url https
 
 ## 启动项目
 ```bash
+conda create -n MinerU python=3.10
+conda activate MinerU
+pip install -U magic-pdf[full] --extra-index-url https://wheels.myhloli.com -i https://pypi.tuna.tsinghua.edu.cn/simple
 pip install -r requirements.txt
 python webui.py
 ```
