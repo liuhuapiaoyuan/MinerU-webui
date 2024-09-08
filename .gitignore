@@ -2,3 +2,5 @@
 .temp
 flagged
 models
+!models/.gitkeep
+!models/README.md

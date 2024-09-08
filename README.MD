@@ -66,6 +66,13 @@ pip install --force-reinstall torch==2.3.1 torchvision==0.18.1 --index-url https
 
 ## 案例PDF可以选择 `examples/small_ocr.pdf`
 
+## 如何下载模型权重文件
+
+详细参考 [如何下载模型文件](https://github.com/opendatalab/MinerU/blob/master/docs/how_to_download_models_zh_cn.md)
+> ❗️模型下载后请务必检查模型文件是否下载完整
+> 
+> 请检查目录下的模型文件大小与网页上描述是否一致，如果可以的话，最好通过sha256校验模型是否下载完整
+> 下载完成后，建议放入目录`models`，并且修改配置文件`magic-pdf.json`中的`models-dir`为模型文件所在目录的绝对路径。
 
 ## 启动项目
 ```bash
