@@ -1,0 +1,7 @@
+torch
+transformers
+pdf2image
+pytesseract
+gradio
+gradio_pdf
+pdf2image
