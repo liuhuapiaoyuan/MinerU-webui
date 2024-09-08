@@ -1,6 +1,6 @@
 .conda
 .temp
 flagged
-models
+models/*
 !models/.gitkeep
 !models/README.md
