@@ -4,3 +4,5 @@ flagged
 models/*
 !models/.gitkeep
 !models/README.md
+uploads/*
+output/*

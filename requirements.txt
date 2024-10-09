@@ -1,3 +1,5 @@
 pdf2image
 gradio
 gradio_pdf
+fastapi
+uvicorn
