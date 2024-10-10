@@ -6,3 +6,4 @@ models/*
 !models/README.md
 uploads/*
 output/*
+__pycache__

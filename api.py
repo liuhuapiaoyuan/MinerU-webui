@@ -11,8 +11,8 @@ from magic_pdf.dict2md.ocr_mkcontent import ocr_mk_mm_markdown_with_para_and_pag
 from magic_pdf.rw.DiskReaderWriter import DiskReaderWriter
 import magic_pdf.model as model_config
 from fastapi import FastAPI, File, Response, UploadFile, Form
-from fastapi.responses import JSONResponse
-
+from fastapi.responses import FileResponse, JSONResponse
+from zip import export_zip
 model_config.__use_inside_model__ = True
 
  
@@ -257,7 +257,20 @@ async def get_task_status(task_id: str):
     status = task_status.get(task_id, "处理失败:任务 ID 不存在")
     return JSONResponse(content={"task_id": task_id, "status": status})
 
-app.mount("/file", StaticFiles(directory="uploads"), name="uploads")
 
+@app.get("/pack/{task_id}")
+async def pack(task_id: str):
+    md_path = os.path.join(OUTPUT_DIRECTORY, task_id, "content.md")
+    zip_file = export_zip(md_path)
+    # 导出下载文件
+    return FileResponse(zip_file, filename=f"{task_id}.zip")
+
+
+@app.get("/")
+async def index():
+    return {"message": "欢迎使用 PDF 解析服务"}
+
+app.mount("/file", StaticFiles(directory="uploads"), name="uploads")
+   
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8080)
