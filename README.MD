@@ -22,6 +22,7 @@ MinerU是一款开源的高质量PDF解析工具，基于深度学习技术，�
 ### 2022.03.15
 - 支持API接口 👏👏👏👏
 - 接口支持异步处理，并发处理🔥🔥🔥🔥
+- 接口文档`http://127.0.0.1:8080/docs#/`
 
 ## 1. 第一次运行前的配置
 在仓库根目录可以获得 [magic-pdf.template.json](doc/magic-pdf.template.json) 配置模版文件
