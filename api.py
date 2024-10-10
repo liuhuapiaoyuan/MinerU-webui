@@ -243,7 +243,7 @@ async def upload_pdf(
         "file_name":file.filename,
         "pdf_url":f"/file/{file_name}",
         "md_url":f"/file/{output}/{task_id}/content.md",
-        "images":f"/file/{output}/{task_id}/images",
+        "images":f"/file/{output}/{task_id}",
         "model_json":f"/file/{output}/{task_id}/model.json",
         "middle_json":f"/file/{output}/{task_id}/middle.json",
         "content_list_json":f"/file/{output}/{task_id}/content_list.json",
@@ -254,7 +254,7 @@ async def upload_pdf(
 
 @app.get("/task/{task_id}")
 async def get_task_status(task_id: str):
-    status = task_status.get(task_id, "任务 ID 不存在")
+    status = task_status.get(task_id, "处理失败:任务 ID 不存在")
     return JSONResponse(content={"task_id": task_id, "status": status})
 
 app.mount("/file", StaticFiles(directory="uploads"), name="uploads")
