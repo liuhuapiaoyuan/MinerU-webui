@@ -17,9 +17,25 @@ MinerU是一款开源的高质量PDF解析工具，基于深度学习技术，�
 
 ![页面截图](doc/preview.png)
 
+## 推荐
+欢迎大家使用配套的新程序`MinerU-PDFScanner`, 可以将本程序作为后端调用，支持多任务并行处理，支持历史数据查看，支持导出包
+
+<div align="center" xmlns="http://www.w3.org/1999/html">
+<!-- logo -->
+<p align="center">
+  <img src="doc/mineru.png" width="300px" style="vertical-align:middle;">
+</p> 
+<!-- hot link --> 
+<p align="center">
+👏👏👏👏👏👏<a href="https://liuhuapiaoyuan.github.io/MinerU-PDFScanner/">MinerU-PDFScanner</a>🔥🔥🔥
+</p>
+</div>
+
+
+![页面截图](doc/image.png)
 
 ## 更新日志
-### 2022.03.15
+### 2024.10.11
 - 支持API接口 👏👏👏👏
 - 接口支持异步处理，并发处理🔥🔥🔥🔥
 - 接口文档`http://127.0.0.1:8080/docs#/`
