@@ -35,6 +35,10 @@ MinerU是一款开源的高质量PDF解析工具，基于深度学习技术，�
 
 ![页面截图](doc/image.png)
 
+## 说明：有条件的，用`gpu`加速，提升OCR解析速度
+1. 卸载 `pip uninstall paddlepaddle`
+2. 安装cuda版本对应的paddle 
+
 ## 更新日志
 ### 2024.10.11
 - 支持API接口 👏👏👏👏

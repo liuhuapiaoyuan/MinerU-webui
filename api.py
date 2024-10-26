@@ -15,7 +15,20 @@ from fastapi.responses import FileResponse, JSONResponse
 from zip import export_zip
 model_config.__use_inside_model__ = True
 
- 
+def init_model():
+    from magic_pdf.model.doc_analyze_by_custom_model import ModelSingleton
+    try:
+        model_manager = ModelSingleton()
+        model_manager.get_model(False, False)
+        logger.info(f"txt_model init final")
+        model_manager.get_model(True, False)
+        logger.info(f"ocr_model init final")
+        return 0
+    except Exception as e:
+        logger.exception(e)
+        return -1
+
+
 
 def json_md_dump(
         pipe,
@@ -273,4 +286,7 @@ async def index():
 app.mount("/file", StaticFiles(directory="uploads"), name="uploads")
    
 if __name__ == "__main__":
+    logger.info(f"waiting for model init")
+    model_init = init_model()
+    logger.info(f"model_init: {model_init}")
     uvicorn.run(app, host="0.0.0.0", port=8080)

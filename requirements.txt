@@ -1,5 +1,7 @@
+--extra-index-url https://wheels.myhloli.com
 pdf2image
 gradio
 gradio_pdf
 fastapi
 uvicorn
+magic-pdf[full]
