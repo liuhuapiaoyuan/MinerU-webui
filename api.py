@@ -14,6 +14,7 @@ from fastapi import FastAPI, File, Response, UploadFile, Form
 from fastapi.responses import FileResponse, JSONResponse
 from zip import export_zip
 model_config.__use_inside_model__ = True
+from magic_pdf.data.data_reader_writer import FileBasedDataWriter
 
 def init_model():
     from magic_pdf.model.doc_analyze_by_custom_model import ModelSingleton
@@ -40,36 +41,37 @@ def json_md_dump(
 ):
     # 写入模型结果到 model.json
     orig_model_list = copy.deepcopy(pipe.model_list)
-    md_writer.write(
-        content=json.dumps(orig_model_list, ensure_ascii=False, indent=4),
-        path=f"model.json"
+    md_writer.write_string(
+        f"model.json",
+        json.dumps(orig_model_list, ensure_ascii=False, indent=4)
     )
 
     # 写入中间结果到 middle.json
-    md_writer.write(
-        content=json.dumps(pipe.pdf_mid_data, ensure_ascii=False, indent=4),
-        path=f"middle.json"
+    md_writer.write_string(
+        f"middle.json",
+        json.dumps(pipe.pdf_mid_data, ensure_ascii=False, indent=4),
     )
 
     # text文本结果写入到 conent_list.json
-    md_writer.write(
-        content=json.dumps(content_list, ensure_ascii=False, indent=4),
-        path=f"content_list.json"
+    md_writer.write_string(
+        f"content_list.json",
+        json.dumps(content_list, ensure_ascii=False, indent=4),
+        
     )
 
     # 遍历content_list
     for item in md_pages:
         # page_no
         # md_content
-        md_writer.write(
-        content=item['md_content'],
-        path=f"{item['page_no']}.md"
+        md_writer.write_string(
+            f"{item['page_no']}.md",
+        item['md_content']
     )
 
 
-    md_writer.write(
-        content=md_content,
-        path=f"content.md"
+    md_writer.write_string(
+        f"content.md",
+        md_content
     )
 
 
@@ -106,7 +108,7 @@ def pdf_parse_main(
         image_path_parent = os.path.basename(output_image_path)
 
         pdf_bytes = open(pdf_path, "rb").read()  # 读取 pdf 文件的二进制数据
-
+        
         if model_json_path:
             # 读取已经被模型解析后的pdf文件的 json 原始数据，list 类型
             model_json = json.loads(open(model_json_path, "r", encoding="utf-8").read())
@@ -115,11 +117,9 @@ def pdf_parse_main(
 
         # 执行解析步骤
         # image_writer = DiskReaderWriter(output_image_path)
-        image_writer, md_writer = DiskReaderWriter(output_image_path), DiskReaderWriter(output_path)
+        image_writer, md_writer = FileBasedDataWriter(output_image_path), FileBasedDataWriter(output_path)
 
         # 选择解析方式
-        # jso_useful_key = {"_pdf_type": "", "model_list": model_json}
-        # pipe = UNIPipe(pdf_bytes, jso_useful_key, image_writer)
         if parse_method == "auto":
             jso_useful_key = {"_pdf_type": "", "model_list": model_json}
             pipe = UNIPipe(pdf_bytes, jso_useful_key, image_writer)
@@ -142,6 +142,9 @@ def pdf_parse_main(
                 logger.error("need model list input")
                 exit(1)
 
+
+
+    
         # 执行解析
         pipe.pipe_parse()
         # 保存 text 和 md 格式的结果

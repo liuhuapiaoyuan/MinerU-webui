@@ -17,6 +17,7 @@ import time
 from gradio_pdf import PDF
 from pdf2image import convert_from_path
 import threading
+from magic_pdf.data.data_reader_writer import FileBasedDataWriter
 
 # 创建一个全局变量来存储日志信息
 log_messages = []
@@ -47,29 +48,30 @@ def json_md_dump(
         content_list,
         md_content,
 ):
-    # 写入模型结果到 model.json
+     # 写入模型结果到 model.json
     orig_model_list = copy.deepcopy(pipe.model_list)
-    md_writer.write(
-        content=json.dumps(orig_model_list, ensure_ascii=False, indent=4),
-        path=f"{pdf_name}_model.json"
+    md_writer.write_string(
+        f"model.json",
+        json.dumps(orig_model_list, ensure_ascii=False, indent=4)
     )
 
     # 写入中间结果到 middle.json
-    md_writer.write(
-        content=json.dumps(pipe.pdf_mid_data, ensure_ascii=False, indent=4),
-        path=f"{pdf_name}_middle.json"
+    md_writer.write_string(
+        f"middle.json",
+        json.dumps(pipe.pdf_mid_data, ensure_ascii=False, indent=4),
     )
 
     # text文本结果写入到 conent_list.json
-    md_writer.write(
-        content=json.dumps(content_list, ensure_ascii=False, indent=4),
-        path=f"{pdf_name}_content_list.json"
+    md_writer.write_string(
+        f"content_list.json",
+        json.dumps(content_list, ensure_ascii=False, indent=4),
+        
     )
 
     # 写入结果到 .md 文件中
-    md_writer.write(
-        content=md_content,
-        path=f"{pdf_name}.md"
+    md_writer.write_string(
+        f"content.md",
+        md_content
     )
     return f"{pdf_name}.md"
 
@@ -125,7 +127,7 @@ def pdf_parse_main(
 
         # 执行解析步骤
         # image_writer = DiskReaderWriter(output_image_path)
-        image_writer, md_writer = DiskReaderWriter(output_image_path), DiskReaderWriter(output_path)
+        image_writer, md_writer = FileBasedDataWriter(output_image_path), FileBasedDataWriter(output_path)
 
         # 选择解析方式
         # jso_useful_key = {"_pdf_type": "", "model_list": model_json}
